@@ -1,0 +1,81 @@
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="row w-100">
+      
+      <div class="col-md-6 col-lg-4 mx-auto">
+        <div class="card shadow-lg border-0 rounded-4">
+          <div class="card-body p-4">
+  
+            <h3 class="text-center mb-4">Login</h3>
+  
+            <!-- Error Message -->
+            <div *ngIf="errorMsg" class="alert alert-danger">
+              {{ errorMsg }}
+            </div>
+  
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  
+              <!-- Email -->
+              <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  formControlName="email"
+                  placeholder="Enter email"
+                />
+  
+                <div *ngIf="submitted && f['email'].errors" class="text-danger mt-1">
+                  <small *ngIf="f['email'].errors['required']">Email is required</small>
+                  <small *ngIf="f['email'].errors['email']">Invalid email format</small>
+                </div>
+              </div>
+  
+              <!-- Password -->
+              <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  formControlName="password"
+                  placeholder="Enter password"
+                />
+  
+                <div *ngIf="submitted && f['password'].errors" class="text-danger mt-1">
+                  <small *ngIf="f['password'].errors['required']">Password is required</small>
+                  <small *ngIf="f['password'].errors['minlength']">
+                    Minimum 6 characters required
+                  </small>
+                </div>
+              </div>
+  
+              <!-- Button -->
+              <button
+                type="submit"
+                class="btn btn-primary w-100"
+                [disabled]="loading"
+              >
+                <span *ngIf="!loading">Login</span>
+                <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+              </button>
+  
+            </form>
+  
+            <!-- Register Link -->
+            <div class="text-center mt-3">
+              <small>
+                Don't have an account?
+                <a routerLink="/register" routerLinkActive="active-tab">Register</a>
+              </small>
+              <div>
+                or
+                <div>email:<b>{{'admin@test.com'}}</b></div>
+                <div> password:<b>{{'123456'}}</b>  </div>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>

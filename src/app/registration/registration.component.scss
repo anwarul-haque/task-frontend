@@ -1,0 +1,21 @@
+.container {
+    padding: 20px;
+  }
+  
+  .card {
+    transition: 0.3s;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+
+  a {
+    text-decoration:none
+  }
+  
+  @media (max-width: 576px) {
+    .card-body {
+      padding: 20px;
+    }
+  }

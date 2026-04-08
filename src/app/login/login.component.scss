@@ -1,0 +1,25 @@
+/* Center card on all devices */
+.container {
+    padding: 20px;
+  }
+  
+  /* Card animation (nice touch for UI) */
+  .card {
+    transition: 0.3s;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+
+  a {
+    text-decoration:none
+  }
+  
+  /* Mobile tweaks */
+  @media (max-width: 576px) {
+    .card-body {
+      padding: 20px;
+    }
+  }
+  

@@ -1,0 +1,65 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4 class="mb-0">Users</h4>
+  <button class="btn btn-primary btn-sm" (click)="openForm()">+ Add User</button>
+</div>
+
+<div *ngIf="loading" class="text-center py-5">
+  <div class="spinner-border text-primary"></div>
+</div>
+
+<div *ngIf="!loading">
+  <div *ngIf="users.length === 0" class="text-center text-muted py-5">No users found.</div>
+
+  <table *ngIf="users.length > 0" class="table table-hover align-middle">
+    <thead class="table-dark">
+      <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Team Lead</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>
+          <span class="badge" [ngClass]="roleBadgeClass(user.role)">{{ user.role }}</span>
+        </td>
+        <td>
+          <ng-container *ngIf="user.role === Role.EMPLOYEE">
+            <select class="form-select form-select-sm w-auto"
+              (change)="assignToTeamLead(user, $any($event.target).value)">
+              <option value="">-- None --</option>
+              <option *ngFor="let tl of teamLeads" [value]="tl._id" [selected]="user.teamLead?._id===tl._id">{{ tl.username }}</option>
+            </select>
+          </ng-container>
+          <span *ngIf="user.role !== Role.EMPLOYEE" class="text-muted">—</span>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-outline-primary me-2" (click)="openForm(user)">Edit</button>
+          <button class="btn btn-sm btn-outline-danger"
+            (click)="confirmDelete(user)"
+            [disabled]="user._id === currentUser._id">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<ng-template #deleteModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Delete User</h5>
+  </div>
+  <div class="modal-body">
+    Are you sure you want to delete <strong>{{ userToDelete?.username }}</strong>?
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+    <button class="btn btn-danger" (click)="modal.close('confirm')">Delete</button>
+  </div>
+</ng-template>
