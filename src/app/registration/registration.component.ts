@@ -3,7 +3,6 @@ import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validator
 import { AuthService } from '../auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Role } from '../model/user.model';
 
 @Component({
   selector: 'app-registration',
@@ -17,7 +16,6 @@ export class RegistrationComponent implements OnInit {
   loading = false;
   successMsg = '';
   errorMsg = '';
-  roles = Object.values(Role);
 
   constructor(
     private fb: FormBuilder,
@@ -30,7 +28,6 @@ export class RegistrationComponent implements OnInit {
       {
         username: ['', [Validators.required, Validators.minLength(3)]],
         email: ['', [Validators.required, Validators.email]],
-        role: [Role.EMPLOYEE, Validators.required],
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', Validators.required]
       },
@@ -69,7 +66,6 @@ export class RegistrationComponent implements OnInit {
     const payload = {
       username: this.form.value.username,
       email: this.form.value.email,
-      role: this.form.value.role,
       password: this.form.value.password
     };
 
