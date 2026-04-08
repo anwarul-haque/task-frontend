@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { User, Role } from './model/user.model';
 import { environment } from '../environments/environment';
 
@@ -9,6 +10,11 @@ import { environment } from '../environments/environment';
 export class AuthService {
 
   private API = `${environment.backendUrl}/api/auth`;
+
+  private userSubject = new BehaviorSubject<User | null>(
+    JSON.parse(localStorage.getItem('user') || 'null')
+  );
+  user$ = this.userSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -23,6 +29,7 @@ export class AuthService {
   setSession(data: {token:string, user:User}) {
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
+    this.userSubject.next(data.user);
   }
 
   getUser(): User {
@@ -55,5 +62,6 @@ export class AuthService {
 
   logout() {
     localStorage.clear();
+    this.userSubject.next(null);
   }
 }

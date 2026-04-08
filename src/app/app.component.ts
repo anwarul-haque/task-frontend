@@ -25,8 +25,10 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.user = this.authService.getUser();
-    this.errorSub = this.errorNotification.error$.subscribe(msg => {
+    this.errorSub = this.authService.user$.subscribe(user => {
+      this.user = user!;
+    });
+    this.errorNotification.error$.subscribe(msg => {
       this.errorMessage = msg;
       setTimeout(() => this.errorMessage = null, 5000);
     });
